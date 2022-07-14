@@ -1,3 +1,13 @@
+resource "null_resource" "set_lf" {
+  provisioner "local-exec" {
+    command = <<EOT
+      sed -i 's/\\r\\n//g' ${path.module}/shared/scripts/install.sh
+      sed -i 's/\\r\\n//g' ${path.module}/shared/scripts/service.sh
+      sed -i 's/\\r\\n//g' ${path.module}/shared/scripts/ip_tables.sh
+    EOT
+  }
+}
+
 resource "aws_instance" "server" {
   ami             = var.ami["${var.region}-${var.platform}"]
   instance_type   = var.instance_type
@@ -29,14 +39,6 @@ resource "aws_instance" "server" {
       "echo ${var.servers} > /tmp/consul-server-count",
       "echo ${aws_instance.server[0].private_ip} > /tmp/consul-server-addr"
     ]
-  }
-
-  provisioner "local-exec" {
-    command = <<EOT
-      sed -i 's/\\r\\n//g' ${path.module}/shared/scripts/install.sh
-      sed -i 's/\\r\\n//g' ${path.module}/shared/scripts/service.sh
-      sed -i 's/\\r\\n//g' ${path.module}/shared/scripts/ip_tables.sh
-    EOT
   }
 
   provisioner "remote-exec" {
