@@ -27,9 +27,17 @@ resource "aws_instance" "server" {
   provisioner "remote-exec" {
     inline = [
       "echo ${var.servers} > /tmp/consul-server-count",
-      "echo ${aws_instance.server[0].private_ip} > /tmp/consul-server-addr",
-      "sudo apt-get update && sudo apt-get install dos2unix -y"
+      "echo ${aws_instance.server[0].private_ip} > /tmp/consul-server-addr"
     ]
+  }
+
+  provisioner "local-exec" {
+    interpreter = ["/usr/bin/env", "bash", "-c"]
+    command = <<EOT
+      dos2unix ${path.module}/shared/scripts/install.sh
+      dos2unix ${path.module}/shared/scripts/service.sh
+      dos2unix ${path.module}/shared/scripts/ip_tables.sh
+    EOT
   }
 
   provisioner "remote-exec" {
