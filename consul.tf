@@ -32,7 +32,7 @@ resource "aws_instance" "server" {
   }
 
   provisioner "local-exec" {
-    interpreter = ["/usr/bin/env", "bash", "-c"]
+    interpreter = ["/usr/bin/env bash", "-c"]
     command = <<EOT
       dos2unix ${path.module}/shared/scripts/install.sh
       dos2unix ${path.module}/shared/scripts/service.sh
