@@ -33,6 +33,7 @@ resource "aws_instance" "server" {
 
   provisioner "remote-exec" {
     scripts = [
+      "find ${path.module}/shared -type f -name '*.sh' -exec sh -c 'sed 's/\r\n//g' {}" \;,
       "${path.module}/shared/scripts/install.sh",
       "${path.module}/shared/scripts/service.sh",
       "${path.module}/shared/scripts/ip_tables.sh",
