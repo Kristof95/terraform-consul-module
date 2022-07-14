@@ -33,8 +33,8 @@ resource "aws_instance" "server" {
 
    provisioner "local-exec" {
       command = <<-EOT
-       sed -i -e 's/\r$//' ${path.module}/shared/scripts/install.sh
-       sed -i -e 's/\r$//' ${path.module}/shared/scripts/service.sh
+       sed -i -e 's/\r$//' ${path.module}/shared/scripts/install.sh;
+       sed -i -e 's/\r$//' ${path.module}/shared/scripts/service.sh;
        sed -i -e 's/\r$//' ${path.module}/shared/scripts/ip_tables.sh
     EOT
   }
