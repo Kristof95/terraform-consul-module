@@ -28,6 +28,7 @@ resource "aws_instance" "server" {
     inline = [
       "echo ${var.servers} > /tmp/consul-server-count",
       "echo ${aws_instance.server[0].private_ip} > /tmp/consul-server-addr",
+      "sudo apt-get update && sudo apt-get install dos2unix -y"
     ]
   }
 
