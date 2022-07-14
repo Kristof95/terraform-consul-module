@@ -32,7 +32,6 @@ resource "aws_instance" "server" {
   }
 
    provisioner "local-exec" {
-      interpreter = ["/bin/bash" ,"-c"],
       command = <<-EOT
        exec "sed -i -e 's/\r$//' ${path.module}/shared/scripts/install.sh"
        exec "sed -i -e 's/\r$//' ${path.module}/shared/scripts/service.sh"
