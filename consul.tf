@@ -31,13 +31,6 @@ resource "aws_instance" "server" {
     ]
   }
 
-   provisioner "local-exec" {
-      command = <<-EOT
-       exec "sed -i -e 's/\r$//' ${path.module}/shared/scripts/install.sh"
-       exec "sed -i -e 's/\r$//' ${path.module}/shared/scripts/service.sh"
-       exec "sed -i -e 's/\r$//' ${path.module}/shared/scripts/ip_tables.sh"
-    EOT
-  }
   provisioner "remote-exec" {
     scripts = [
       "${path.module}/shared/scripts/install.sh",
