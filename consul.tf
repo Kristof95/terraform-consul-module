@@ -32,16 +32,16 @@ resource "aws_instance" "server" {
   }
 
   provisioner "local-exec" {
-    interpreter = ["/usr/bin/bash", "-c"]
     command = <<EOT
-      dos2unix ${path.module}/shared/scripts/install.sh
-      dos2unix ${path.module}/shared/scripts/service.sh
-      dos2unix ${path.module}/shared/scripts/ip_tables.sh
+      sed -i 's/\\r\\n//g' ${path.module}/shared/scripts/install.sh
+      sed -i 's/\\r\\n//g' ${path.module}/shared/scripts/service.sh
+      sed -i 's/\\r\\n//g' ${path.module}/shared/scripts/ip_tables.sh
     EOT
   }
 
   provisioner "remote-exec" {
     scripts = [
+
       "${path.module}/shared/scripts/install.sh",
       "${path.module}/shared/scripts/service.sh",
       "${path.module}/shared/scripts/ip_tables.sh",
